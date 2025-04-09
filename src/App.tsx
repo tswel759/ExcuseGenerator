@@ -1,46 +1,22 @@
-import{useState} from "react";
+import React, { useState } from 'react';
+import ExcuseForm from './components/ExcuseForm';
+import ExcuseList from './components/ExcuseList';
+import './App.css'; // Dołącz styl CSS
 
-interface FormData{
-  name: string;
-  powod_wymowki: string;
-}
+const App = () => {
+    const [excuses, setExcuses] = useState([]);
 
-const Form =() =>{
-  const [formData,setFormData]=useState<FormData>({name:"",powod_wymowki:""});
+    const addExcuse = (newExcuse) => {
+        setExcuses([...excuses, newExcuse]);
+    };
 
-  function handleSubmit(e: React.FormEvent){
-    console.log("nacisnąłeś submita")
-    console.log(e)
-  }
+    return (
+        <div className="App">
+            <h1>Excuse Generator</h1>
+            <ExcuseForm addExcuse={addExcuse} />
+            <ExcuseList excuses={excuses} />
+        </div>
+    );
+};
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>)
-  {
-    console.log(e)
-    const{name,value}=e.target;
-    setFormData(prev=>({...prev, [name]:value}))
-    console.log(formData)
-  }
-  return(
-      <form onSubmit={handleSubmit}>
-        <label>
-          Imię:
-          <input type="text"
-                 name="name"
-                 value={formData.name}
-                 onChange={handleChange}
-          />
-        </label>
-        <label>
-          Powod wymowki:
-          <input type="select"
-                 name="powod_wymowki"
-                 value={formData.powod_wymowki}
-                 onChange={handleChange}
-          />
-        </label>
-        <button type="submit">Wyslij formularz</button>
-      </form>
-  )
-}
-
-export default Form;
+export default App;
